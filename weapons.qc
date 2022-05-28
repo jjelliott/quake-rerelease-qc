@@ -981,7 +981,7 @@ void() W_Attack =
 		sound (self, CHAN_WEAPON, "weapons/ax1.wav", 1, ATTN_NORM);
 		r = random();
 		
-		if(cvar("horde") && (serverflags & SIGIL_E3))  // horde rune behavior
+		if(world.horde && (serverflags & SIGIL_E3))  // horde rune behavior
 		{
 			if ((self.axe_hit_chain >= 2) && (time < self.axe_hit_chain_time))
 			{

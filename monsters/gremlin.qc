@@ -262,7 +262,7 @@ float() GremlinFindTarget =
             }
          head = nextent(head);
          }
-      if ((gorge != world) && (dist < (700*random())))
+      if (!world.horde && (gorge != world) && (dist < (700*random())))
          {
 //         dprint("starting to gorge on ");
 //         dprint(gorge.classname);

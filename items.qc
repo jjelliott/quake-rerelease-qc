@@ -116,7 +116,7 @@ float (entity e, float healamount, float ignore) T_Heal =
 	healamount = ceil(healamount);
 	
 	// AY Dec13 2021, horde rune of hunger
-	if (cvar("horde") && (serverflags & 2))
+	if (world.horde && (serverflags & 2))
 		e.hunger_time = time + HUNGER_MAX;
 
 	e.health = e.health + healamount;

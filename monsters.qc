@@ -254,7 +254,7 @@ void InitMonster(string model, float type, float size)
 	
 	// Yoder, Sept29, fix for preplaced monsters in horde_ent
 	// in horde, mosnters shouldn't increase total count until spawned
-	if (cvar("horde"))
+	if (world.horde)
 	{
 		if (!(self.spawnflags & MONSTER_SPAWNED))
 			total_monsters = total_monsters + 1;
@@ -289,7 +289,7 @@ void() MonsterFade2 =
 }
 void() MonsterFade =
 {
-	if (!cvar("horde"))
+	if (!world.horde)
 	{
 		self.think = SUB_Null;
 		return;

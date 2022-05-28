@@ -53,7 +53,7 @@ void() sigil_touch =
     float lastPickup = SUB_LeftShift(self.spawnflags & SIGIL_ALL, SIGIL_NUMBITS);
     serverflags = serverflags | (self.spawnflags & SIGIL_ALL) | lastPickup;
 	
-	if (cvar("horde") && (self.spawnflags & SIGIL_E2)) // Hunger
+	if (world.horde && (self.spawnflags & SIGIL_E2)) // Hunger
 	{
 		local entity e;
 		e = find(world, classname, "player");

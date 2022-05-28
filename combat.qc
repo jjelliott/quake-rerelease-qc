@@ -96,7 +96,7 @@ void(entity targ, entity attacker) Killed =
 	self.enemy = attacker;
 	
 	// Yoder March04 2022, punish team killspree
-	if (cvar("horde") && (attacker.classname) == "player" && (targ.classname == "player"))
+	if (world.horde && (attacker.classname) == "player" && (targ.classname == "player"))
 	{
 		dprint("punish teamkill\n");
 		attacker.killtime = 0;
@@ -298,7 +298,7 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 				// yoder Sept24, 2021
 				// if in horde mode, have enemies obey a reaggro time
 				// TODO: Evaluate if we want this as default in co-op?
-				if (cvar("horde"))
+				if (world.horde)
 				{
 					if ((self.enemy.classname == "player") &&  // current and new enemy are both players, check reaggro times
 						(attacker.classname == "player"))
