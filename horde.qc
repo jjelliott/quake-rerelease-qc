@@ -1636,6 +1636,7 @@ entity(entity selected, float r) ThresholdCheck =
 	}
 	return selected;
 }
+
 void() SpawnWave2 =
 {
 	local entity t, oself; // t is the temp spawn, oself is for temp storage of self
@@ -1650,56 +1651,25 @@ void() SpawnWave2 =
 	{
 		if (self.fodder > 0)
 		{
-			if (r1SquadsLength > 0) 
-			{
-				r = random() * r1SquadsLength;
-				custom_squad = ThresholdCheck(R1_SQUADS[floor(r)], r);
-				
-				dprint("fodder squad picked: ");
-				dprint(custom_squad.target);
-				dprint("\n");
-				squad_type = custom_squad.style;
-			}
-			else // should be dead code in correctly formed maps 
-			{
-				r = random() * 4;
-				if (r < 1)
-					squad_name = "3 grunts";
-				else if (r < 2)
-					squad_name = "2 grunts, 1 dog";
-				else if (r < 3.5)
-					squad_name = "2 dogs";
-				else
-				{
-					squad_name = "1 enforcer";
-					squad_type = HORDE_SQUAD_TYPE_RANGED;
-				}
-
-			}
+			r = random() * r1SquadsLength;
+			custom_squad = ThresholdCheck(R1_SQUADS[floor(r)], r);
+			
+			dprint("fodder squad picked: ");
+			dprint(custom_squad.target);
+			dprint("\n");
+			squad_type = custom_squad.style;
 
 			squad_cat = HORDE_SQUAD_CAT_FODDER;
 		}
 		else if (self.elites > 0)
 		{
-			if (r1EliteSquadsLength > 0)
-			{
-				r = random() * r1EliteSquadsLength;
-				custom_squad = ThresholdCheck(R1_ELITE_SQUADS[floor(r)], r);
-				dprint("elite squad picked: ");
-				dprint(custom_squad.target);
-				dprint("\n");
+			r = random() * r1EliteSquadsLength;
+			custom_squad = ThresholdCheck(R1_ELITE_SQUADS[floor(r)], r);
+			dprint("elite squad picked: ");
+			dprint(custom_squad.target);
+			dprint("\n");
 
-				squad_type = custom_squad.style;
-			}
-			else  // should be dead code in correctly formed maps 
-			{ 
-				squad_type = HORDE_SQUAD_TYPE_RANGED;
-				r = random() * 2;
-				if (r < 1.5)
-					squad_name = "2 enforcers";
-				else
-					squad_name = "1 ogre";
-			}
+			squad_type = custom_squad.style;
 			squad_cat = HORDE_SQUAD_CAT_ELITE;
 		}
 		else if (self.bosses > 0)
@@ -1713,90 +1683,39 @@ void() SpawnWave2 =
 	{
 		if (self.fodder > 0)
 		{
-			if (r2SquadsLength > 0)
-			{
-				r = random() * r2SquadsLength;
-				custom_squad = ThresholdCheck(R2_SQUADS[floor(r)], r);
+			r = random() * r2SquadsLength;
+			custom_squad = ThresholdCheck(R2_SQUADS[floor(r)], r);
 				
-				dprint("elite squad picked: ");
-				dprint(custom_squad.target);
-				dprint("\n");
+			dprint("elite squad picked: ");
+			dprint(custom_squad.target);
+			dprint("\n");
 
-				squad_type = custom_squad.style;
-			}
-			else 
-			{
-				r = random() * 4;
-				if (r < 2)
-					squad_name = "2 knights";
-				else if (r < 3)
-					squad_name = "2 zombies";
-				else
-				{
-					squad_name = "1 wizard";
-					squad_type = HORDE_SQUAD_TYPE_FLYING;
-				}
-			}
+			squad_type = custom_squad.style;
 			squad_cat = HORDE_SQUAD_CAT_FODDER;
 		}
 		else if (self.elites > 0)
 		{
-			if (r2EliteSquadsLength > 0)
-			{
-				r = random() * r2EliteSquadsLength;
-				custom_squad = ThresholdCheck(R2_ELITE_SQUADS[floor(r)], r);
-				dprint("elite squad picked: ");
-				dprint(custom_squad.target);
-				dprint("\n");
+			
+			r = random() * r2EliteSquadsLength;
+			custom_squad = ThresholdCheck(R2_ELITE_SQUADS[floor(r)], r);
+			dprint("elite squad picked: ");
+			dprint(custom_squad.target);
+			dprint("\n");
 
-				squad_type = custom_squad.style;
-			}
-			else // should never be reached
-			{
-				r = random() * 4;
-				if (r < 1)
-					squad_name = "2 hellknights";
-				else if (r < 2)
-					squad_name = "2 knights, 1 hellknight";
-				else if (r < 3)
-				{
-					squad_name = "1 ogre";
-					squad_type = HORDE_SQUAD_TYPE_RANGED;
-				}
-				else
-				{
-					squad_name = "3 wizards";
-					squad_type = HORDE_SQUAD_TYPE_FLYING;
-				}
-			}
+			squad_type = custom_squad.style;
+						
 			squad_cat = HORDE_SQUAD_CAT_ELITE;
 		}
 		else if (self.bosses > 0)
 		{
-			if (bossSquadsLength > 0) 
-			{
-				r = random() * bossSquadsLength;
-				custom_squad = ThresholdCheck(BOSS_SQUADS[floor(r)], r);
-				dprint("boss squad picked: ");
-				dprint(custom_squad.target);
-				dprint("\n");
+			r = random() * bossSquadsLength;
+			custom_squad = ThresholdCheck(BOSS_SQUADS[floor(r)], r);
+			dprint("boss squad picked: ");
+			dprint(custom_squad.target);
+			dprint("\n");
 
-				squad_type = custom_squad.style;
-			}
-			else // should never be reached on a well formed map
-			{
-				squad_type = HORDE_SQUAD_TYPE_BOSS;
-				r = random() * 3;
-				if (r < 1)
-					squad_name = "shambler";
-				else if (r < 2.5)
-				{
-					squad_name = "double demon";
-					squad_type = HORDE_SQUAD_TYPE_NORMAL;
-				}
-				else
-					squad_name = "shalrath";
-			}
+			squad_type = custom_squad.style;
+		
 			squad_cat = HORDE_SQUAD_CAT_BOSS;
 		}
 	}
@@ -2397,6 +2316,7 @@ void() SetHorde =
 
 		squad = find(squad, classname, "squad_definition");
 	}
+	
 	dprint("found ");
 	dprint(ftos(r1SquadsLength));
 	dprint(" r1 squads, ");
