@@ -65,6 +65,7 @@ monsters/fish.qc		// registered
 monsters/shalrath.qc	// registered
 monsters/enforcer.qc	// registered
 monsters/oldone.qc		// registered
+monsters/gremlin.qc
 
 misc_corpses.qc //Corpses yay
 misc_fx.qc // adds screenshake

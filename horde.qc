@@ -622,6 +622,27 @@ entity(string class, vector org, vector temp_angles) SpawnMonster =
 		monster.th_missile = zombie_missile;
 		monster.target = string_null; // don't target anything!
 	}
+	else if (class == "gremlin")
+	{
+		setmodel(monster, "progs/grem.mdl");
+   		//setsize (self, VEC_HULL_MIN, VEC_HULL_MAX);
+		
+		setsize (monster, '-16 -16 -24', '16 16 40');
+		monster.classname = "monster_gremlin";
+
+		org = org + '0 0 32';
+		monster.health = 100;
+   		monster.max_health = 101;
+   		monster.yaw_speed = 40;
+
+   		monster.th_stand = gremlin_stand1;
+   		monster.th_walk = gremlin_walk1;
+   		monster.th_run = gremlin_run1;
+   		monster.th_die = gremlin_die;
+   		monster.th_melee = Gremlin_MeleeAttack;     // one of two attacks
+   		monster.th_missile = Gremlin_MissileAttack; // check for random jump or firing of weapon
+   		monster.th_pain = gremlin_pain;
+	}
 	else
 	{
 		dprint("ERROR: No monster provided");

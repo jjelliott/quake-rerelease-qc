@@ -890,3 +890,13 @@ float SIGIL_E4 = 8;
 float SIGIL_E5 = 16;
 float SIGIL_E6 = 32;
 float SIGIL_NUMBITS = 6;
+
+// gremlin stuff
+.float      gorging;
+.float      stoleweapon;
+.entity     lastvictim;
+
+float visible_distance;
+
+//MED 01/05/97 added discharge variable
+float discharged;
