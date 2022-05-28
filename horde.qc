@@ -429,6 +429,20 @@ void() PrecacheMonsters =
 		precache_model2 ("progs/b_g_key.mdl");
 		precache_model2 ("progs/b_s_key.mdl");
 	}
+
+	// gremlin
+	precache_model ("progs/grem.mdl");
+    precache_model ("progs/h_grem.mdl");
+
+   	precache_sound ("grem/death.wav");
+   	precache_sound ("grem/attack.wav");
+   	precache_sound ("demon/djump.wav");
+   	precache_sound ("demon/dhit2.wav");
+   	precache_sound ("grem/pain1.wav");
+   	precache_sound ("grem/pain2.wav");
+   	precache_sound ("grem/pain3.wav");
+   	precache_sound ("grem/idle.wav");
+   	precache_sound ("grem/sight1.wav");
 };
 // =================================================================
 void() GibMonster =
