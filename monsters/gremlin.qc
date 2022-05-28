@@ -824,7 +824,10 @@ void()   gremlin_die8    =[ $death8.asc,    gremlin_die9 ] {ai_forward(1);};
 void()   gremlin_die9    =[ $death9.asc,    gremlin_die10 ] {ai_forward(2);};
 void()   gremlin_die10    =[ $death10.asc,    gremlin_die11 ] {ai_forward(1);};
 void()   gremlin_die11    =[ $death11.asc,    gremlin_die12 ] {ai_forward(2);};
-void()   gremlin_die12    =[ $death12.asc,    gremlin_die12 ] {};
+void()   gremlin_die12    =[ $death12.asc,    gremlin_die12 ] {
+   self.think = MonsterFade;
+	self.nextthink = time + FADETIME;
+};
 
 void() gremlin_gib=
    {
