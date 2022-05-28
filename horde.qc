@@ -27,7 +27,7 @@ void() SpawnAmmo;
 .float	elites; // how many elite squads to spawn
 .float	bosses; // how many bosses to spawn
 .float 	spawncount; // number of monster spawns
-.float army; // Spawn Army? True/fallse
+.float roundtype; // Spawn Army? True/fallse
 float(entity spawnpoint) CheckBlockedSpawn;
 
 entity R1_SQUADS[255];
@@ -38,6 +38,10 @@ entity R2_SQUADS[255];
 float r2SquadsLength;
 entity R2_ELITE_SQUADS[255];
 float r2EliteSquadsLength;
+entity ALL_FODDER[255];
+float allFodderLength;
+entity ALL_ELITE[255];
+float allEliteLength;
 entity BOSS_SQUADS[255];
 float bossSquadsLength;
 
@@ -1682,7 +1686,46 @@ void() SpawnWave2 =
 	local float squad_cat; //
 
 	//STEP 1: determine what kind of monster is getting spawned
-	if (self.army)
+	if (self.roundtype == 2) {
+		if (self.fodder > 0)
+		{
+			r = random() * allFodderLength;
+			custom_squad = ThresholdCheck(ALL_FODDER[floor(r)], r);
+				
+			dprint("elite squad picked: ");
+			dprint(custom_squad.target);
+			dprint("\n");
+
+			squad_type = custom_squad.style;
+			squad_cat = HORDE_SQUAD_CAT_FODDER;
+		}
+		else if (self.elites > 0)
+		{
+			
+			r = random() * allEliteLength;
+			custom_squad = ThresholdCheck(ALL_ELITE[floor(r)], r);
+			dprint("elite squad picked: ");
+			dprint(custom_squad.target);
+			dprint("\n");
+
+			squad_type = custom_squad.style;
+						
+			squad_cat = HORDE_SQUAD_CAT_ELITE;
+		}
+		else if (self.bosses > 0)
+		{
+			r = random() * bossSquadsLength;
+			custom_squad = ThresholdCheck(BOSS_SQUADS[floor(r)], r);
+			dprint("boss squad picked: ");
+			dprint(custom_squad.target);
+			dprint("\n");
+
+			squad_type = custom_squad.style;
+		
+			squad_cat = HORDE_SQUAD_CAT_BOSS;
+		}
+	} 
+	else if (self.roundtype == 1)
 	{
 		if (self.fodder > 0)
 		{
@@ -1854,17 +1897,23 @@ float() SpawnWavePrep =
 	// AY FEB07 scaling start wave based on difficulty
 	local float temp_wave;
 	if (skill >= 3)
-		temp_wave = self.wave + 6;
+		temp_wave = self.wave + (self.style * 2);
 	else if (skill >= 2)
-		temp_wave = self.wave + 3;
+		temp_wave = self.wave + self.style;
 	else
 		temp_wave = self.wave;
 
 	// Determine if Army wave
-	if ((temp_wave + 2) % 3 == 0)
-		self.army = TRUE;
+	if (self.style == 5 && temp_wave > 0 && temp_wave % 5 == 0)
+	{
+		self.roundtype = 2;
+	}
+	else if (((self.style == 3 || self.style == 4) && (temp_wave + 2) % self.style == 0) || 
+	((self.style == 4 || self.style == 5) && (temp_wave + 3) % self.style == 0) ||
+	(self.style == 5 && (temp_wave + 4) % self.style == 0))
+		self.roundtype = 1;
 	else
-		self.army = FALSE;
+		self.roundtype = 0;
 
 	// player scalar
 	playercount = HordeGetPlayersAlive();
@@ -1878,14 +1927,14 @@ float() SpawnWavePrep =
 		playerscalar = 1;
 
 	// Boss Count
-	if (temp_wave % 3 == 0)
+	if (temp_wave % self.style == 0)
 	{
-		self.bosses = floor((temp_wave+1)/4);
+		self.bosses = floor((temp_wave+1)/(self.style + 1));
 	}
-	else if ((skill > 1) && (!self.army) && (temp_wave > 9))
+	else if ((skill > 1) && (!self.roundtype) && (temp_wave > (self.style * 3)))
 	{
 		//AY feb07, some extra spice
-		self.bosses = floor((temp_wave+1)/8);
+		self.bosses = floor((temp_wave+1)/((self.style + 1) * 2) );
 	}
 
 	// Elite Count
@@ -1918,7 +1967,7 @@ float() SpawnWavePrep =
 
 void() Countdown4 =
 {
-	if (self.wave % 3 == 0)
+	if (self.wave % self.style == 0)
 		centerprint_all("$qc_horde_boss_wave");
 	else
 		centerprint_all("$qc_horde_fight");
@@ -2011,7 +2060,7 @@ void() Wavecheck =
 	}
 
 	// Early exit for kill count
-	if ((self.wave % 3 == 0) || (self.wave < 3)) // Be exact?
+	if ((self.wave % self.style == 0) || (self.wave < self.style)) // Be exact?
 	{
 		dprint("check monsters killed as boss wave\n");
 		if (HordeGetMonstersAlive() > 0) // testing the new way
@@ -2035,7 +2084,7 @@ void() Wavecheck =
 	self.wait = 1;
 	self.think = Countdown;
 
-	if (self.wave % 3 == 0) // it was a boss wave
+	if (self.wave % self.style == 0) // it was a boss wave
 	{
 		if(!key_spawned) // key was already spawned, don't spawn another yet!
 			GetKey();
@@ -2323,11 +2372,15 @@ void() SetHorde =
 			{
 				R1_ELITE_SQUADS[r1EliteSquadsLength] = squad;
 				r1EliteSquadsLength += 1;
+				ALL_ELITE[allEliteLength] = squad;
+				allEliteLength += 1;
 			}
 			else
 			{
 				R1_SQUADS[r1SquadsLength] = squad;
 				r1SquadsLength += 1;
+				ALL_FODDER[allFodderLength]=squad;
+				allFodderLength+=1;
 			}
 		}
 		if (squad.spawnflags & 2)
@@ -2336,11 +2389,17 @@ void() SetHorde =
 			{
 				R2_ELITE_SQUADS[r2EliteSquadsLength] = squad;
 				r2EliteSquadsLength += 1;
+
+				ALL_ELITE[allEliteLength] = squad;
+				allEliteLength += 1;
 			}
 			else
 			{
 				R2_SQUADS[r2SquadsLength] = squad;
 				r2SquadsLength += 1;
+
+				ALL_FODDER[allFodderLength]=squad;
+				allFodderLength+=1;
 			}
 		}
 		if (squad.spawnflags & 4)
@@ -2387,7 +2446,7 @@ void() horde_manager =
 	PrecacheMonsters();
 
 	horde_ent = self; // set global reference to the horde manager
-
+	if (!self.style) self.style = 3;
 	if (!self.target)
 	self.target = "horde_event"; // default name
 
