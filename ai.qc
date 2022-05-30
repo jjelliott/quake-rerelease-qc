@@ -895,3 +895,19 @@ void(float dist) ai_run =
 	}
 };
 
+// ================================================================
+// ai_track - used to have an object chase/track an enemy. the object
+//		flies directly at the destEnt's view_ofs point.
+//
+// destEnt: the entity to orbit
+// trackSpeed: the velocity multiplier (speed) of the object
+// from Rogue
+// ================================================================
+void(entity destEnt, float trackSpeed) ai_track =
+{
+	local vector	dir;
+	
+	dir = destEnt.origin + destEnt.view_ofs;
+	dir = normalize(dir - self.origin);
+    self.velocity = dir * trackSpeed;
+};

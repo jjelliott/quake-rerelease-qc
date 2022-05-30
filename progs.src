@@ -69,8 +69,8 @@ monsters/oldone.qc		// registered
 monsters/gremlin.qc
 // rogue monsters
 monsters/invis_sw.qc
+monsters/wrath.qc
 //monsters/s_wrath.qc
-//monsters/wrath.qc
 
 misc_corpses.qc //Corpses yay
 misc_fx.qc // adds screenshake
