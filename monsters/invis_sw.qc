@@ -65,7 +65,7 @@ $frame deathb1 deathb2 deathb3 deathb4 deathb5 deathb6 deathb7 deathb8
 $frame deathb9 deathb10 deathb11
 
 void()	sword_stand1	=[	$stand1,	sword_stand1	] {ai_stand();};
-
+void()	sword_walk1 	=[	$stand1,	sword_walk1	] {ai_face();};
 /*
 void()	sword_walk1 =[	$walk1, sword_walk2	] {ai_walk(4);};
 void()	sword_walk2	=[	$walk2, sword_walk3	] {ai_walk(4);};
@@ -194,7 +194,7 @@ void() monster_sword =
 	self.th_stand = sword_stand1;
 //	self.th_walk = sword_walk1;
 	self.th_walk = sword_stand1;
-		self.th_run = sword_pause;
+	self.th_run = sword_pause;
 
 	self.th_melee = sword_atk1;
 	self.th_die = sword_die;
@@ -202,5 +202,5 @@ void() monster_sword =
 	self.allowPathFind = TRUE;
 	self.combat_style = CS_MELEE;
 	
-	InitMonster("progs/sword.mdl", MONSTER_TYPE_WALK, MONSTER_SIZE_LARGE);
+	InitMonster("progs/sword.mdl", MONSTER_TYPE_WALK, MONSTER_SIZE_SMALL);
 };

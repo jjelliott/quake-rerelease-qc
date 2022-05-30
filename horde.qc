@@ -447,6 +447,10 @@ void() PrecacheMonsters =
    	precache_sound ("grem/pain3.wav");
    	precache_sound ("grem/idle.wav");
    	precache_sound ("grem/sight1.wav");
+
+	// invisible sword
+
+	precache_model ("progs/sword.mdl");
 };
 // =================================================================
 void() GibMonster =
@@ -660,6 +664,25 @@ entity(string class, vector org, vector temp_angles) SpawnMonster =
    		monster.th_melee = Gremlin_MeleeAttack;     // one of two attacks
    		monster.th_missile = Gremlin_MissileAttack; // check for random jump or firing of weapon
    		monster.th_pain = gremlin_pain;
+	}
+	else if (class == "sword")
+	{
+
+		setmodel (monster, "progs/sword.mdl");
+		setsize (monster, VEC_HULL2_MIN, VEC_HULL2_MAX);
+		monster.classname = "monster_sword";
+
+    	monster.health = 150;  // 75;
+		if ( !monster.delay)
+			monster.delay = 10;
+		
+		monster.th_stand = sword_stand1;
+//	monster.th_walk = sword_walk1;
+		monster.th_walk = sword_walk1;
+		monster.th_run = sword_run1;
+		monster.th_melee = sword_atk1;
+		monster.th_die = sword_die;
+		monster.th_pain = sword_pain;
 	}
 	else
 	{
@@ -1480,14 +1503,14 @@ void(entity squad, vector org, vector temp_angles) SpawnSquad3 =
 	}
 	else if (monsterdefs_size == 2)
 	{
-		SpawnMonster(monsterdefs[0].message, org + '44 0 0', temp_angles);
-		SpawnMonster(monsterdefs[1].message, org + '-44 0 0', temp_angles);
+		SpawnMonster(monsterdefs[0].message, org + '44 0 40', temp_angles);
+		SpawnMonster(monsterdefs[1].message, org + '-44 0 40', temp_angles);
 	} 
 	else 
 	{
-		SpawnMonster(monsterdefs[0].message, org + '44 0 0', temp_angles);
-		SpawnMonster(monsterdefs[1].message, org + '-44 44 0', temp_angles);
-		SpawnMonster(monsterdefs[2].message, org + '-44 -44 0', temp_angles);
+		SpawnMonster(monsterdefs[0].message, org + '44 0 40', temp_angles);
+		SpawnMonster(monsterdefs[1].message, org + '-44 44 40', temp_angles);
+		SpawnMonster(monsterdefs[2].message, org + '-44 -44 40', temp_angles);
 	}
 }
 
