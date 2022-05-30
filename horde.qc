@@ -451,6 +451,18 @@ void() PrecacheMonsters =
 	// invisible sword
 
 	precache_model ("progs/sword.mdl");
+
+	// wrath
+	precache_model ("progs/wrath.mdl");
+	precache_model ("progs/w_ball.mdl");
+	precache_model ("progs/wrthgib1.mdl");
+	precache_model ("progs/wrthgib2.mdl");
+	precache_model ("progs/wrthgib3.mdl");
+	
+	precache_sound ("wrath/wsee.wav");
+	precache_sound ("wrath/watt.wav");
+	precache_sound ("wrath/wpain.wav");
+	precache_sound ("wrath/wdthc.wav");
 };
 // =================================================================
 void() GibMonster =
