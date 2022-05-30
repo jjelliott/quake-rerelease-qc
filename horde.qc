@@ -2429,6 +2429,7 @@ void() SetHorde =
 
 void() HordeTurnOn = 
 {
+	dprint("sanity - HordeTurnOn\n");
 	self.think = SetHorde;
 	self.nextthink = time + HORDE_START_DELAY;
 	self.use = Wavecheck;
@@ -2449,10 +2450,11 @@ void() horde_manager =
 	if (!self.style) self.style = 3;
 	if (!self.target)
 	self.target = "horde_event"; // default name
-
+	if (!self.targetname)
 	self.targetname = "horde_manager";
 	if (self.spawnflags & 1)
 	{
+		dprint("sanity - setting self.use to HordeTurnOn\n");
 		self.use = HordeTurnOn;
 	}
 	else
@@ -2554,7 +2556,7 @@ void() horde_spawn_powerup =
 // this is to trigger a wavecheck from outside of horde mode
 void() remote_wavecheck =
 {
-	if(!horde_ent || (intermission_running))
+	if(!horde_ent || (intermission_running) || !horde_ent.think)
 	{
 		dprint("no wavecheck.");
 		if (!horde_ent)
